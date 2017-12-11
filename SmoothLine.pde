@@ -1,4 +1,4 @@
-ArrayList<PVector> plot1, plot2, plot3;
+ArrayList<PVector> plot1, plot2, plot3, plot4, plot5, plot6;
 int counter = 0;
 int LIMIT = 50;
 float phase = 0;
@@ -18,6 +18,9 @@ int COLOR;
 int COLOR1 = #33FF33;
 int COLOR2 = #FF3333;
 int COLOR3 = #3333FF;
+int COLOR4 = #FFFF33;
+int COLOR5 = #FF33FF;
+int COLOR6 = #33FFFF;
 
 boolean run = true;
 
@@ -26,6 +29,9 @@ void initPlots() {
   plot1 = new ArrayList<PVector>();
   plot2 = new ArrayList<PVector>();
   plot3 = new ArrayList<PVector>();
+  plot4 = new ArrayList<PVector>();
+  plot5 = new ArrayList<PVector>();
+  plot6 = new ArrayList<PVector>();
 }
 
 void setup() {
@@ -40,8 +46,10 @@ void draw() {
   background(255);
   //camera(1500.0*sin(4*PI*float(mouseX)/width), 1500.0*cos(4*PI*float(mouseX)/width), 3000*float(mouseY)/height - 1500, 500, 500, 0, 0.0, 0.0, -1.0);
   camera(1500.0*sin(2*PI*timeStep/PERIOD), 1500.0*cos(2*PI*timeStep/PERIOD), 1500*(height-float(mouseY))/height, 500, 500, 500, 0.0, 0.0, -1.0);
-  //camera(1500.0*sin(1.5*PI), 1500.0*cos(2*PI), 1500*(height-float(mouseY))/height, 500, 500, 500, 0.0, 0.0, -1.0);
+  //camera(-1000, 500, 3000*(height-float(mouseY))/height, 1000, 500, 0, 0.0, 0.0, -1.0);
+  //camera(500, 500, 2000, 500, 500, 0, 0.0, 1.0, 0.0);
   arrow.setStroke(false);
+  
   COLOR = color(COLOR1, 200);
   arrow.setFill(COLOR);
   render(plot1);
@@ -51,6 +59,15 @@ void draw() {
   COLOR = color(COLOR3, 200);
   arrow.setFill(COLOR);
   render(plot3);
+  COLOR = color(COLOR4, 200);
+  arrow.setFill(COLOR);
+  render(plot4);
+  COLOR = color(COLOR5, 200);
+  arrow.setFill(COLOR);
+  render(plot5);
+  COLOR = color(COLOR6, 200);
+  arrow.setFill(COLOR);
+  render(plot6);
   
   noFill();
   stroke(200);
@@ -65,22 +82,30 @@ void draw() {
   popMatrix();
   
   pushMatrix();
-  rotate(-PI/2);
-  translate(-500, -50);
+  rotate(PI/2);
+  translate(500, 70);
   text("DURATION", 0, 0);
   popMatrix();
   
   pushMatrix();
-  rotateZ(PI);
-  rotateY(PI/2);
-  rotateX(PI/4);
-  translate(-500, 70, 0);
+  rotateZ(PI/4);
+//  rotateY(PI/2);
+//  rotateX(PI/4);
+  translate(-200, 25, 0);
   text("CONFIDENCE", 0, 0);
   popMatrix();
   
+  strokeWeight(5);
+  stroke(0);
+  line(0, 0, 0, 1000, 0, 0);
+  line(0, 0, 0, 0, 1000, 0);
+  line(0, 0, 0, 0, 0, 1000);
+  
   noFill();
+  strokeWeight(1);
+  stroke(150);
   translate( width/2,  height/2,  height/2);
-  box(width);
+  //box(width);
   translate(-width/2, -height/2, -height/2);
   
 //  fill(255);
@@ -116,7 +141,7 @@ void addPoint(ArrayList<PVector> list, float constrain) {
     
     x = x0 + random(-0.075*width, +0.06*width);
     y = y0 + random(-0.075*width, +0.06*width);
-    z = z0 + random(-0.075*width, +0.06*width);
+    z = z0 + random(-0.05*width, +0.075*width);
     
     x = max(0, x);
     x = min(x, width);
@@ -153,7 +178,7 @@ void render(ArrayList<PVector> list) {
     pushMatrix();
     //rotateX(PI/4);
     translate(p.x, p.y, p.z);
-    text("Comment", 10, 0);
+    //text(counter, 10, 0);
     popMatrix();
   }
   
@@ -176,6 +201,7 @@ void render(ArrayList<PVector> list) {
     strokeWeight(0.5);
     stroke(100, 50);
     line(p1.x, p1.y, p2.x, p2.y);
+    stroke(100, 25);
     line(p2.x, p2.y, 0, p2.x, p2.y, p2.z);
   }
   
@@ -246,9 +272,12 @@ void keyPressed() {
 void advance() {
   if (counter < LIMIT && cooling == 0) {
     
-    addPoint(plot1, 0.9);
-    addPoint(plot2, 0.5);
-    addPoint(plot3, 0.25);
+    addPoint(plot1, 0);
+    addPoint(plot2, 0);
+    addPoint(plot3, 0);
+    addPoint(plot4, 0);
+    addPoint(plot5, 0);
+    addPoint(plot6, 0);
     
     timer = TIMER_LIMIT;
     cooling = COOLDOWN;
